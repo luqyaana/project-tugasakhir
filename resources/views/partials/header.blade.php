@@ -38,9 +38,10 @@
         </div>
 
         <button
+            type="button"
             id="menu-btn"
             class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#D7E2D8] bg-white text-[#163126] transition hover:bg-[#F5F8F5] md:hidden"
-            aria-label="Toggle menu"
+            aria-label="Buka atau tutup menu navigasi"
             aria-controls="mobile-menu"
             aria-expanded="false"
         >
@@ -63,3 +64,4 @@
         </div>
     </div>
 </header>
+

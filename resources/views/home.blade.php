@@ -33,16 +33,16 @@
         </p>
 
         <h1 class="max-w-5xl text-3xl font-extrabold leading-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
-          Pantau dan Prediksi NO<sub>2</sub> Lebih Dini
+          Pantau dan Ramalkan NO<sub>2</sub> Lebih Dini
         </h1>
 
         <p class="mt-6 max-w-3xl text-sm leading-relaxed text-white/90 sm:text-base md:text-lg">
-          Dapatkan informasi nilai NO<sub>2</sub> terkini, prediksi, serta status risiko untuk membantu masyarakat mengambil langkah pencegahan.
+          Dapatkan informasi nilai NO<sub>2</sub> terkini, peramalan, serta status risiko untuk membantu masyarakat mengambil langkah pencegahan.
         </p>
 
         <a
           href="{{ route('monitoring') }}"
-          class="mt-10 inline-flex h-16 w-full max-w-xs items-center justify-center rounded-3xl bg-green-950 px-5 text-center text-sm font-semibold text-white shadow-[inset_0px_0px_26.6px_0px_rgba(183,201,185,1)] transition hover:bg-green-900 sm:h-20 sm:max-w-sm sm:px-6 sm:text-base"
+          class="relative z-10 mt-10 inline-flex h-16 w-full max-w-xs items-center justify-center rounded-3xl bg-green-950 px-5 text-center text-sm font-semibold text-white shadow-[inset_0px_0px_26.6px_0px_rgba(183,201,185,1)] transition hover:bg-green-900 sm:h-20 sm:max-w-sm sm:px-6 sm:text-base"
         >
           Lihat Informasi Kualitas Udara
         </a>
@@ -59,13 +59,13 @@
             Apa itu Nitrogen Dioksida (NO<sub>2</sub>)?
           </h2>
           <p class="mt-6 max-w-xl text-sm font-medium leading-relaxed sm:text-base">
-            Konsentrasi NO<sub>2</sub> yang tinggi dapat berdampak pada kesehatan manusia, khususnya sistem pernapasan, sehingga pemantauan dan prediksi konsentrasinya menjadi penting dalam upaya pencegahan dini.
+            Konsentrasi NO<sub>2</sub> yang tinggi dapat berdampak pada kesehatan manusia, khususnya sistem pernapasan, sehingga pemantauan dan peramalan konsentrasinya menjadi penting dalam upaya pencegahan dini.
           </p>
         </div>
 
         <div class="lg:pt-10">
           <p class="text-base font-normal leading-relaxed sm:text-lg">
-            Nitrogen dioksida (NO<sub>2</sub>) merupakan gas pencemar udara yang dihasilkan dari proses pembakaran bahan bakar fosil, seperti aktivitas industri dan kendaraan bermotor. Gas ini termasuk dalam kelompok nitrogen oksida (NOx) yang berkontribusi terhadap penurunan kualitas udara serta pembentukan polutan sekunder di atmosfer.
+            Nitrogen dioksida (NO<sub>2</sub>) merupakan salah satu gas pencemar udara yang dapat dihasilkan dari berbagai proses pembakaran. Tdak hanya berasal dari aktivitas industri dan kendaraan bermotor, tetapi juga dapat dipengaruhi oleh pembakaran biomassa, seperti pembakaran sampah, jerami, dan sisa vegetasi.
           </p>
         </div>
       </div>
@@ -133,7 +133,7 @@
 
           <a
             href="{{ route('monitoring') }}"
-            class="mt-10 inline-flex w-full max-w-xl items-center justify-between rounded-3xl border-4 border-[#0D2D1E] px-5 py-4 text-base font-semibold text-[#0D2D1E] transition hover:bg-[#0D2D1E] hover:text-white sm:text-xl"
+            class="relative z-10 mt-10 inline-flex w-full max-w-xl items-center justify-between rounded-3xl border-4 border-[#0D2D1E] px-5 py-4 text-base font-semibold text-[#0D2D1E] transition hover:bg-[#0D2D1E] hover:text-white sm:text-xl"
           >
             Lihat Informasi Kualitas Udara
             <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#0D2D1E] text-xl text-white">
@@ -144,10 +144,32 @@
 
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:col-span-7">
           <article class="relative overflow-hidden rounded-[10px]">
+            <img class="h-72 w-full object-cover" src="{{ asset('images/gambar4.png') }}" alt="Aktivitas perkotaan" />
+            <div class="absolute inset-0 bg-[#0D2D1E]/60"></div>
+            <div class="absolute inset-0 p-6 text-white">
+              <h3 class="max-w-[220px] text-2xl font-semibold leading-snug">Aktivitas Manusia</h3>
+              <p class="mt-5 max-w-xs text-sm font-normal leading-relaxed sm:text-base">
+                Kegiatan manusia seperti pembakaran sampah, pembakaran jerami, aktivitas industri, dan kendaraan bermotor dapat memengaruhi konsentrasi polutan udara di lingkungan sekitar.
+              </p>
+            </div>
+          </article>
+
+          <article class="relative overflow-hidden rounded-[10px]">
+            <img class="h-72 w-full object-cover" src="{{ asset('images/gambar3.png') }}" alt="Transportasi dan logistik" />
+            <div class="absolute inset-0 bg-[#0D2D1E]/60"></div>
+            <div class="absolute inset-0 p-6 text-white">
+              <h3 class="max-w-[220px] text-2xl font-semibold leading-snug">Pembakaran Biomassa</h3>
+              <p class="mt-5 max-w-xs text-sm font-normal leading-relaxed sm:text-base">
+                Aktivitas industri, pelabuhan, logistik, serta penggunaan bahan bakar biomassa pada beberapa kegiatan usaha dapat memengaruhi konsentrasi polutan udara di wilayah Cilacap.
+              </p>
+            </div>
+          </article>
+
+          <article class="relative overflow-hidden rounded-[10px]">
             <img class="h-72 w-full object-cover" src="{{ asset('images/gambar1.png') }}" alt="Industri petrokimia" />
             <div class="absolute inset-0 bg-[#0D2D1E]/60"></div>
             <div class="absolute inset-0 p-6 text-white">
-              <h3 class="max-w-[200px] text-2xl font-semibold leading-snug">Industri Petrokimia</h3>
+              <h3 class="max-w-[200px] text-2xl font-semibold leading-snug">Industri Migas</h3>
               <p class="mt-5 max-w-xs text-sm font-normal leading-relaxed sm:text-base">
                 Cilacap memiliki kawasan industri pengolahan, termasuk kilang minyak dan fasilitas energi, yang dalam proses operasionalnya menghasilkan emisi gas buang hasil pembakaran.
               </p>
@@ -161,28 +183,6 @@
               <h3 class="max-w-[200px] text-2xl font-semibold leading-snug">Pembangkit Listrik</h3>
               <p class="mt-5 max-w-xs text-sm font-normal leading-relaxed sm:text-base">
                 Aktivitas pembangkitan energi skala besar dapat berkontribusi terhadap emisi polutan udara akibat proses pembakaran dalam sistem produksi energi.
-              </p>
-            </div>
-          </article>
-
-          <article class="relative overflow-hidden rounded-[10px]">
-            <img class="h-72 w-full object-cover" src="{{ asset('images/gambar3.png') }}" alt="Transportasi dan logistik" />
-            <div class="absolute inset-0 bg-[#0D2D1E]/60"></div>
-            <div class="absolute inset-0 p-6 text-white">
-              <h3 class="max-w-[220px] text-2xl font-semibold leading-snug">Transportasi dan Logistik</h3>
-              <p class="mt-5 max-w-xs text-sm font-normal leading-relaxed sm:text-base">
-                Sebagai wilayah industri dan pelabuhan, aktivitas kendaraan berat dan distribusi barang meningkatkan emisi dari sektor transportasi.
-              </p>
-            </div>
-          </article>
-
-          <article class="relative overflow-hidden rounded-[10px]">
-            <img class="h-72 w-full object-cover" src="{{ asset('images/gambar4.png') }}" alt="Aktivitas perkotaan" />
-            <div class="absolute inset-0 bg-[#0D2D1E]/60"></div>
-            <div class="absolute inset-0 p-6 text-white">
-              <h3 class="max-w-[220px] text-2xl font-semibold leading-snug">Aktivitas Perkotaan</h3>
-              <p class="mt-5 max-w-xs text-sm font-normal leading-relaxed sm:text-base">
-                Pertumbuhan jumlah kendaraan bermotor dan kepadatan aktivitas perkotaan turut memengaruhi konsentrasi polutan udara.
               </p>
             </div>
           </article>

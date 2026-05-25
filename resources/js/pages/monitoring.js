@@ -26,6 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const monitoringDataElement = document.getElementById("monitoring-data");
     const monitoringAdvicesElement = document.getElementById("monitoring-advices");
     const monitoringMetaElement = document.getElementById("monitoring-meta");
+    const chartScrollWrap = document.getElementById("chart-scroll-wrap");
+    const chartScrollInner = document.getElementById("chart-scroll-inner");
 
     let currentDataset = "real";
     let currentRealDate = null;
@@ -39,6 +41,62 @@ document.addEventListener("DOMContentLoaded", () => {
     const monitoringMeta = monitoringMetaElement
         ? JSON.parse(monitoringMetaElement.textContent || "{}")
         : {};
+
+    const enableHorizontalDragScroll = () => {
+        if (!chartScrollWrap) return;
+
+        let isDown = false;
+        let startX = 0;
+        let scrollLeft = 0;
+        let moved = false;
+
+        chartScrollWrap.addEventListener("pointerdown", (event) => {
+            if (window.innerWidth >= 1024) return;
+
+            isDown = true;
+            moved = false;
+            startX = event.clientX;
+            scrollLeft = chartScrollWrap.scrollLeft;
+
+            chartScrollWrap.setPointerCapture?.(event.pointerId);
+            chartScrollWrap.classList.add("cursor-grabbing");
+        });
+
+        chartScrollWrap.addEventListener("pointermove", (event) => {
+            if (!isDown) return;
+
+            const walk = event.clientX - startX;
+
+            if (Math.abs(walk) > 4) {
+                moved = true;
+            }
+
+            chartScrollWrap.scrollLeft = scrollLeft - walk;
+        });
+
+        chartScrollWrap.addEventListener("pointerup", (event) => {
+            isDown = false;
+            chartScrollWrap.releasePointerCapture?.(event.pointerId);
+            chartScrollWrap.classList.remove("cursor-grabbing");
+        });
+
+        chartScrollWrap.addEventListener("pointercancel", () => {
+            isDown = false;
+            chartScrollWrap.classList.remove("cursor-grabbing");
+        });
+
+        chartScrollWrap.addEventListener(
+            "click",
+            (event) => {
+                if (moved) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    moved = false;
+                }
+            },
+            true
+        );
+    };
 
     const colorByCategory = {
         Baik: "bg-[#48C774]",
@@ -228,6 +286,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const renderComparisonChart = (series) => {
         const labels = Array.isArray(series.labels) ? series.labels : [];
+        updateScrollableChartWidth(labels.length);
         const detailLabels = Array.isArray(series.detail_labels) ? series.detail_labels : labels;
         const actualValues = Array.isArray(series.actual_values) ? series.actual_values : [];
         const predictedValues = Array.isArray(series.predicted_values) ? series.predicted_values : [];
@@ -325,21 +384,45 @@ document.addEventListener("DOMContentLoaded", () => {
             svg.appendChild(polyline);
         };
 
-        addPolyline(validActualPoints, "#0D2D1E");
-        addPolyline(validPredictedPoints, "#6F916F", "8 6");
+        addPolyline(validActualPoints, "#2563EB");
+        addPolyline(validPredictedPoints, "#F97316", "8 6");
         chartBars.appendChild(svg);
 
         const legend = document.createElement("div");
         legend.className = "absolute left-2 top-2 z-10 flex flex-wrap items-center gap-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-semibold text-[#183427] shadow-[0_8px_20px_rgba(22,49,38,0.08)]";
         legend.innerHTML = `
-            <span class="inline-flex items-center gap-2"><span class="h-[3px] w-6 rounded-full bg-[#0D2D1E]"></span>Aktual</span>
-            <span class="inline-flex items-center gap-2"><span class="h-[3px] w-6 rounded-full border-t-[3px] border-dashed border-[#6F916F]"></span>Peramalan</span>
+            <span class="inline-flex items-center gap-2">
+                <span class="h-[3px] w-6 rounded-full bg-[#2563EB]"></span>
+                Aktual
+            </span>
+            <span class="inline-flex items-center gap-2">
+                <span class="h-[3px] w-6 rounded-full border-t-[3px] border-dashed border-[#F97316]"></span>
+                Peramalan
+            </span>
         `;
         chartBars.appendChild(legend);
 
         if (advicePanel) {
             advicePanel.classList.add("hidden");
         }
+    };
+
+    const updateScrollableChartWidth = (labelCount = 0) => {
+        if (!chartScrollInner) return;
+
+        const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+
+        if (isDesktop) {
+            chartScrollInner.style.width = "100%";
+            chartScrollInner.style.minWidth = "0";
+            return;
+        }
+
+        const minimumWidth = 920;
+        const widthByData = Math.max(minimumWidth, labelCount * 54);
+
+        chartScrollInner.style.width = `${widthByData}px`;
+        chartScrollInner.style.minWidth = `${widthByData}px`;
     };
 
     const renderChart = (datasetType) => {
@@ -391,6 +474,7 @@ document.addEventListener("DOMContentLoaded", () => {
             })();
         const values = Array.isArray(series.values) ? series.values : [];
         const labels = Array.isArray(series.labels) ? series.labels : [];
+        updateScrollableChartWidth(labels.length);
         const detailLabels = Array.isArray(series.detail_labels) ? series.detail_labels : labels;
         const scale = buildScale(values.filter((value) => Number.isFinite(Number(value))).map(Number));
 
@@ -477,7 +561,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const line = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
             line.setAttribute("points", polyline);
             line.setAttribute("fill", "none");
-            line.setAttribute("stroke", "#567A5E");
+            line.setAttribute("stroke", datasetType === "prediksi" ? "#F97316" : "#2563EB");
             line.setAttribute("stroke-width", "3");
             line.setAttribute("stroke-linecap", "round");
             line.setAttribute("stroke-linejoin", "round");
@@ -489,8 +573,12 @@ document.addEventListener("DOMContentLoaded", () => {
         validPoints.forEach((point) => {
             const pointButton = document.createElement("button");
             pointButton.type = "button";
-            pointButton.className = "chart-point absolute h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#567A5E] bg-white opacity-80 shadow-[0_8px_20px_rgba(86,122,94,0.16)] transition hover:scale-110 hover:border-[#355B3F] hover:bg-[#F6FBF7] hover:opacity-100";
-            pointButton.style.left = `${(point.x / width) * 100}%`;
+            const pointColorClass = datasetType === "prediksi"
+                ? "border-[#F97316] shadow-[0_8px_20px_rgba(249,115,22,0.18)] hover:border-[#C2410C] hover:bg-[#FFF7ED]"
+                : "border-[#2563EB] shadow-[0_8px_20px_rgba(37,99,235,0.18)] hover:border-[#1D4ED8] hover:bg-[#EFF6FF]";
+
+            pointButton.className = `chart-point absolute h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 bg-white opacity-80 transition hover:scale-110 hover:opacity-100 ${pointColorClass}`;
+                        pointButton.style.left = `${(point.x / width) * 100}%`;
             pointButton.style.top = `${((point.y ?? 0) / height) * 100}%`;
 
             pointButton.addEventListener("mouseenter", () => showTooltip(pointButton, point.value, point.detailLabel));
@@ -513,35 +601,66 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     if (dataBtn && dataMenu && dataLabel && dataIcon) {
-        dataBtn.addEventListener("click", () => {
-            const willOpen = dataMenu.classList.contains("hidden");
-            dataMenu.classList.toggle("hidden");
-            dataBtn.setAttribute("aria-expanded", String(willOpen));
-            dataIcon.classList.toggle("rotate-90", willOpen);
+        dataBtn.dataset.ready = "true";
+
+        const closeDropdown = () => {
+            dataMenu.classList.add("hidden");
+            dataBtn.setAttribute("aria-expanded", "false");
+            dataIcon.classList.remove("rotate-90");
+        };
+
+        const openDropdown = () => {
+            dataMenu.classList.remove("hidden");
+            dataBtn.setAttribute("aria-expanded", "true");
+            dataIcon.classList.add("rotate-90");
+        };
+
+        dataBtn.addEventListener("click", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const isClosed = dataMenu.classList.contains("hidden");
+
+            if (isClosed) {
+                openDropdown();
+            } else {
+                closeDropdown();
+            }
+        });
+
+        dataMenu.addEventListener("click", (event) => {
+            event.stopPropagation();
         });
 
         dataOptions.forEach((option) => {
-            option.addEventListener("click", () => {
+            option.addEventListener("click", (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+
                 currentDataset = option.dataset.value || "real";
-                dataLabel.textContent = currentDataset === "prediksi"
-                    ? "Data Peramalan"
-                    : currentDataset === "perbandingan"
-                        ? "Aktual vs Peramalan"
-                        : "Data Real";
+
+                dataLabel.textContent =
+                    currentDataset === "prediksi"
+                        ? "Data Peramalan"
+                        : currentDataset === "perbandingan"
+                            ? "Aktual vs Peramalan"
+                            : "Data Real";
+
                 setActiveOption(currentDataset);
                 renderChart(currentDataset);
-
-                dataMenu.classList.add("hidden");
-                dataBtn.setAttribute("aria-expanded", "false");
-                dataIcon.classList.remove("rotate-90");
+                closeDropdown();
             });
         });
 
         document.addEventListener("click", (event) => {
             if (!dataBtn.contains(event.target) && !dataMenu.contains(event.target)) {
-                dataMenu.classList.add("hidden");
-                dataBtn.setAttribute("aria-expanded", "false");
-                dataIcon.classList.remove("rotate-90");
+                closeDropdown();
+            }
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                closeDropdown();
             }
         });
     }
@@ -555,6 +674,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    enableHorizontalDragScroll();
     setActiveOption(currentDataset);
     renderChart(currentDataset);
 });

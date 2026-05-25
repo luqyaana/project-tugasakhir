@@ -53,7 +53,7 @@
 
                 <a
                     href="{{ route('monitoring') }}"
-                    class="inline-flex w-full max-w-xl items-center justify-between rounded-3xl border-4 border-[#0D2D1E] px-5 py-4 text-base font-semibold text-[#0D2D1E] transition hover:bg-[#0D2D1E] hover:text-white sm:text-xl"
+                    class="relative z-10 inline-flex w-full max-w-xl items-center justify-between rounded-3xl border-4 border-[#0D2D1E] px-5 py-4 text-base font-semibold text-[#0D2D1E] transition hover:bg-[#0D2D1E] hover:text-white sm:text-xl"
                 >
                     Lihat Informasi Kualitas Udara
                     <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#0D2D1E] text-xl text-white">

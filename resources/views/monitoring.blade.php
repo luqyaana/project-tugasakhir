@@ -71,14 +71,14 @@
 
         <div class="mt-8">
           <div class="rounded-[22px] bg-[#F7FAF7] p-5 ring-1 ring-[#E1E8E1]">
-            <div class="flex items-center justify-between gap-4">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h4 class="text-base font-semibold text-neutral-700">Data Monitoring NO<sub>2</sub></h4>
-              <label id="real-date-filter-wrap" class="hidden items-center gap-2 rounded-full border border-[#D7E5DA] bg-white/90 px-3 py-2 text-xs font-semibold text-[#557161]">
+              <label id="real-date-filter-wrap" class="hidden w-full flex-col gap-2 rounded-2xl border border-[#D7E5DA] bg-white/90 px-3 py-2 text-xs font-semibold text-[#557161] sm:w-auto sm:flex-row sm:items-center sm:rounded-full">
                 <span>Tanggal Aktual</span>
                 <input
                   id="real-date-filter"
                   type="date"
-                  class="rounded-full border border-[#D7E5DA] bg-[#F8FBF8] px-3 py-1 text-xs font-semibold text-[#183427] outline-none"
+                  class="w-full rounded-full border border-[#D7E5DA] bg-[#F8FBF8] px-3 py-1 text-xs font-semibold text-[#183427] outline-none sm:w-auto"
                   />
               </label>
             </div>
@@ -91,7 +91,7 @@
             <div id="comparison-empty-note" class="mt-4 hidden rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
               Grafik perbandingan aktual dan peramalan belum tersedia. Pastikan hasil forecasting sudah diproses dan dipublish.
             </div>
-            <div class="mt-5 rounded-2xl bg-gradient-to-b from-white to-[#E8F1E8] p-4">
+            <div class="mt-5 rounded-2xl bg-gradient-to-b from-white to-[#E8F1E8] p-3 sm:p-4">
               <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
                 <div></div>
                 <div class="flex flex-wrap items-center gap-3">
@@ -100,29 +100,36 @@
                   </div>
                 </div>
               </div>
-              <div class="overflow-x-auto">
-                <div class="grid min-w-[980px] grid-cols-[64px_minmax(0,1fr)] gap-4">
-                  <div id="chart-y-axis" class="flex h-64 flex-col justify-between text-[11px] font-bold text-green-950">
+              <p class="mb-3 text-xs font-medium text-[#557161] sm:hidden">Geser grafik ke kiri atau kanan untuk melihat seluruh data.</p>
+              <div 
+                  id="chart-scroll-wrap" 
+                  class="w-full overflow-x-auto overflow-y-hidden overscroll-x-contain pb-3 [-webkit-overflow-scrolling:touch] touch-pan-x cursor-grab active:cursor-grabbing"
+                >
+                <div 
+                  id="chart-scroll-inner" 
+                  class="grid min-w-[920px] max-w-none grid-cols-[46px_minmax(0,1fr)] gap-3 sm:grid-cols-[56px_minmax(0,1fr)] sm:gap-4 lg:min-w-0 lg:w-full lg:grid-cols-[64px_minmax(0,1fr)]"
+                >
+                  <div id="chart-y-axis" class="flex h-56 flex-col justify-between text-[10px] font-bold text-green-950 sm:h-64 sm:text-[11px]">
                   </div>
                   <div>
-                    <div id="chart-plot" class="relative h-64">
-                    <div class="absolute inset-0 flex flex-col justify-between">
-                      <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
-                      <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
-                      <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
-                      <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
-                      <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
-                      <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
-                      <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
-                      <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
-                      <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
-                      <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
-                      <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
+                    <div id="chart-plot" class="relative h-56 sm:h-64">
+                      <div class="absolute inset-0 flex flex-col justify-between">
+                        <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
+                        <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
+                        <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
+                        <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
+                        <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
+                        <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
+                        <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
+                        <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
+                        <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
+                        <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
+                        <div class="h-[3px] w-full rounded-[5px] bg-neutral-300/90"></div>
+                      </div>
+                      <div id="chart-bars" class="absolute inset-0">
+                      </div>
                     </div>
-                    <div id="chart-bars" class="absolute inset-0">
-                    </div>
-                    </div>
-                    <div id="chart-x-axis" class="mt-3 grid gap-1 text-center text-[9px] font-semibold text-green-950">
+                    <div id="chart-x-axis" class="mt-3 grid gap-1 text-center text-[8px] font-semibold text-green-950 sm:text-[9px]">
                     </div>
                   </div>
                 </div>
@@ -144,14 +151,14 @@
 
         <div id="advice-panel" class="mt-8 hidden overflow-hidden rounded-[22px] border border-[#DCE7DD] bg-white shadow-[0_18px_40px_rgba(13,45,30,0.08)]">
           <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px]">
-            <div id="advice-left" class="bg-[#48C774] px-8 py-7 text-white transition-colors duration-200">
-              <p id="advice-status" class="text-4xl font-bold">Baik</p>
-              <p id="advice-value" class="mt-5 text-7xl font-semibold leading-none">36.6</p>
+            <div id="advice-left" class="bg-[#48C774] px-5 py-6 text-white transition-colors duration-200 sm:px-8 sm:py-7">
+              <p id="advice-status" class="text-3xl font-bold sm:text-4xl">Baik</p>
+              <p id="advice-value" class="mt-5 text-5xl font-semibold leading-none sm:text-7xl">36.6</p>
               <p id="advice-effect" class="mt-8 max-w-xl text-xs font-bold">
                 Tingkat kualitas udara yang sangat baik, tidak memberikan efek negatif terhadap manusia, hewan, dan tumbuhan.
               </p>
             </div>
-            <div id="advice-right" class="bg-[#F6FBF7] px-8 py-7 text-[#0D2D1E]">
+            <div id="advice-right" class="bg-[#F6FBF7] px-5 py-6 text-[#0D2D1E] sm:px-8 sm:py-7">
               <p class="text-base font-bold text-[#183427]">Saran Pencegahan</p>
               <p id="advice-text" class="mt-3 text-sm font-normal leading-7 text-[#355244]">
                 Aktivitas luar ruangan dapat dilakukan seperti biasa.<br />
@@ -170,6 +177,7 @@
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
       @vite(['resources/js/public.js', 'resources/js/pages/monitoring.js'])
     @endif
+
     <script id="monitoring-data" type="application/json">@json($monitoringData)</script>
     <script id="monitoring-advices" type="application/json">@json($monitoringAdvices)</script>
     <script id="monitoring-meta" type="application/json">@json(['hasActiveDataset' => (bool) $activeDataset, 'hasPublishedModel' => (bool) $publishedModel])</script>

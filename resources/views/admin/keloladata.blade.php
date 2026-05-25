@@ -115,6 +115,37 @@
                                 </div>
                             @endif
 
+
+
+                            <div class="mt-4 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+                                <div class="rounded-[22px] border border-[#CFE2D0] bg-white p-5 shadow-[0_12px_28px_rgba(13,45,30,0.06)]">
+                                    <div class="flex items-start gap-3">
+                                        <div class="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-[#E7F1E8] text-lg font-bold text-[#0D2D1E]">i</div>
+                                        <div>
+                                            <h2 class="text-base font-semibold text-[#0D2D1E]">Ketentuan Dataset NO&#8322;</h2>
+                                            <p class="mt-1 text-sm leading-6 text-neutral-600">
+                                                Dataset yang diunggah digunakan sebagai data historis untuk proses monitoring dan peramalan NO&#8322;. Pastikan format data sudah sesuai sebelum berkas diproses oleh sistem.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 grid gap-3 md:grid-cols-6">
+                                        <div class="rounded-2xl bg-[#F6FAF6] p-4">
+                                            <p class="text-xs font-semibold uppercase tracking-wide text-[#3D5F3E]">Format berkas</p>
+                                            <p class="mt-1 text-sm font-medium text-[#0D2D1E]">CSV</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-[22px] border border-[#CFE2D0] bg-[#F8FCF8] p-5">
+                                    <h2 class="text-base font-semibold text-[#0D2D1E]">Kolom yang Diperlukan</h2>
+                                    <ul class="mt-3 space-y-2 text-sm leading-6 text-neutral-700">
+                                        <li><span class="font-semibold text-[#0D2D1E]">Datetime</span> berisi waktu pencatatan data.</li>
+                                        <li><span class="font-semibold text-[#0D2D1E]">NO₂</span> berisi nilai konsentrasi atau nilai ISPU parameter NO₂.</li>
+                                        <li>Gunakan tanda koma atau titik secara konsisten pada nilai desimal.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
                             <div class="mt-4 rounded-[24px] bg-white p-4 shadow-[0_18px_40px_rgba(13,45,30,0.08)] md:p-6">
                                 <div class="overflow-hidden rounded-[22px] border border-[#DCE7DD] bg-[#FAFCFA]">
                                     <div class="overflow-x-auto">
@@ -248,7 +279,7 @@
                 <div class="flex items-center justify-between gap-4 rounded-2xl bg-neutral-500/10 px-5 py-4">
                     <div>
                         <h2 class="text-lg font-semibold text-[#0D2D1E] md:text-xl">Unggah dataset NO&#8322;</h2>
-                        <p class="mt-1 text-sm text-neutral-500">Tambahkan nama dataset lalu pilih satu atau beberapa file yang akan digabungkan ke sistem.</p>
+                        <p class="mt-1 text-sm text-neutral-500">Tambahkan nama dataset, lalu unggah file CSV yang memiliki kolom Datetime dan NO₂.</p>
                     </div>
                     <button id="closeUploadModal" type="button" class="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-200 text-lg font-semibold text-neutral-600 transition hover:bg-neutral-300" aria-label="Tutup modal">
                         &times;
@@ -262,15 +293,27 @@
                         name="nama_dataset"
                         type="text"
                         value="{{ old('nama_dataset') }}"
-                        placeholder="Masukkan nama dataset.."
+                        placeholder="Contoh: Data NO2 Cilacap Januari-Juli 2025"
                         class="mt-2 h-12 w-full rounded-xl border border-[#DCE7DD] bg-[#FAFCFA] px-4 text-sm text-neutral-700 placeholder:text-zinc-400 focus:border-[#0D2D1E] focus:outline-none"
                     />
 
+
+
+                    <div class="mt-5 rounded-2xl border border-[#CFE2D0] bg-[#F8FCF8] p-4 text-sm text-neutral-700">
+                        <p class="font-semibold text-[#0D2D1E]">Panduan format data</p>
+                        <ul class="mt-2 list-disc space-y-1 pl-5 leading-6">
+                            <li>Kolom wajib: <span class="font-semibold">Datetime</span> dan <span class="font-semibold">NO₂</span>.</li>
+                            <li>Contoh waktu: <span class="font-semibold">2025.01.01 00:00</span> atau <span class="font-semibold">2025-01-01 00:00</span>.</li>
+                            <li>Nilai NO₂ harus berupa angka, misalnya <span class="font-semibold">59</span> atau <span class="font-semibold">59,5</span>.</li>
+                            <li>Unduh template CSV terlebih dahulu jika ingin menggunakan format yang sudah disediakan.</li>
+                        </ul>
+                    </div>
+
                     <label for="uploadFileInput" class="mt-5 block text-sm font-semibold text-[#0D2D1E]">Unggah Berkas</label>
                     <div class="mt-2 flex min-h-[52px] w-full overflow-hidden rounded-xl border border-[#DCE7DD] bg-[#FAFCFA]">
-                        <input id="uploadFileInput" name="file_dataset[]" type="file" accept=".csv,.txt" multiple class="hidden" />
+                        <input id="uploadFileInput" name="file_dataset[]" type="file" accept=".csv" multiple class="hidden" />
                         <div id="uploadFileName" class="flex flex-1 items-center px-4 text-sm text-zinc-400">
-                            Pilih satu atau beberapa file CSV/TXT..
+                            Pilih file CSV sesuai format dataset NO₂..
                         </div>
                         <button id="pickUploadFile" type="button" class="m-1 rounded-lg bg-[#628C63] px-4 text-xs font-semibold text-white transition hover:bg-[#507651]">
                             Pilih File
@@ -278,7 +321,7 @@
                     </div>
 
                     <button type="submit" class="mx-auto mt-10 block h-14 w-full max-w-[220px] rounded-xl bg-[#0D2D1E] text-base font-semibold text-white transition hover:bg-[#18422E]">
-                        Input Data
+                        Unggah Dataset
                     </button>
                 </div>
             </form>
